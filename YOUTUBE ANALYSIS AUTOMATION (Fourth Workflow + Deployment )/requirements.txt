@@ -1,0 +1,9 @@
+# YouTube analysis automation (pinned to the versions the weekly run was tested with)
+python-dotenv==1.2.4
+requests==2.34.2
+google-auth-oauthlib==1.5.0
+google-auth-httplib2==0.4.4
+google-api-python-client==2.201.0
+matplotlib==3.11.2
+pillow==13.0.0
+reportlab==5.1.0

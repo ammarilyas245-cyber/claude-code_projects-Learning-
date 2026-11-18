@@ -1,0 +1,21 @@
+{
+  "_comment": "Weekly report topics for the unattended Monday run. The week's ISO number picks one entry, cycling through the list. pattern is a case-insensitive regex on video titles; null means the full niche with no topic scope.",
+  "topics": [
+    {
+      "label": "Content Creation and Personal Branding",
+      "pattern": "(?i)content|creator|creators|brand|branding|youtube|influencer|audience|subscriber|follower|monetiz|personal|channel|shorts|posting|grow"
+    },
+    {
+      "label": "AI Agents and Automation",
+      "pattern": "(?i)agent|agents|agentic|automat|workflow|zapier|make\\.com|n8n"
+    },
+    {
+      "label": "Claude and ChatGPT Tutorials",
+      "pattern": "(?i)claude|chatgpt|gpt|gemini|llm|tutorial"
+    },
+    {
+      "label": "Full AI Niche",
+      "pattern": null
+    }
+  ]
+}

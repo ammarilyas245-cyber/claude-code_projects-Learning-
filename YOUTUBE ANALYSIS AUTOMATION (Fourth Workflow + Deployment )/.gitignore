@@ -1,0 +1,24 @@
+# Environment variables and credentials
+.env
+.env.local
+credentials.json
+token.json
+
+# Temporary files
+.tmp/
+*.pyc
+__pycache__/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Browser automation logs and screenshots
+.playwright-mcp/

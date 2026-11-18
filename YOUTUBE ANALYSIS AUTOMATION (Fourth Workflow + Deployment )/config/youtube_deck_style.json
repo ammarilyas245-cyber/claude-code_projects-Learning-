@@ -1,0 +1,17 @@
+{
+  "palette": {
+    "background": "#0F172A",
+    "panel": "#1E293B",
+    "primary": "#60A5FA",
+    "accent": "#2563EB",
+    "text": "#E5E7EB",
+    "muted": "#9FB3C8",
+    "heading": "#FFFFFF"
+  },
+  "font_heading": "Montserrat",
+  "font_body": "Inter",
+  "logo_path": "Brand_Assets/Logo Image.png",
+  "tagline": "Smarter Automation / Greater Possibilities",
+  "company": "Ammar AI Automation Solution",
+  "notes": "From Brand_Assets/Branding Guidline.png. Logo is white and blue, so it is only placed on the dark navy background."
+}

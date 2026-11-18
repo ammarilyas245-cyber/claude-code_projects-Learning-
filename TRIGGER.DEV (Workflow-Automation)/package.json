@@ -1,0 +1,19 @@
+{
+  "name": "dental-leads-automation",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "trigger.dev dev",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@trigger.dev/sdk": "4.8.5",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "trigger.dev": "4.8.5",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "company_name": "Ammar AI Automation Solution",
+  "brand_abbreviation": "AAA",
+  "tagline": "Smarter Automation / Greater Possibilities",
+  "logo_path": "Brand_Assets/Logo Image.png",
+  "colors": {
+    "primary": "#2563EB",
+    "secondary": "#60A5FA",
+    "dark": "#0F172A",
+    "light": "#E5E7EB",
+    "white": "#FFFFFF"
+  },
+  "fonts": {
+    "heading": "Montserrat",
+    "heading_weight": "Bold",
+    "body": "Inter",
+    "body_weight": "Regular"
+  },
+  "report_title": "Competitive Intelligence Report",
+  "footer_text": "Confidential - Ammar AI Automation Solution"
+}

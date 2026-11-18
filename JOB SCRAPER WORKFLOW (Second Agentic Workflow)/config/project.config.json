@@ -1,0 +1,16 @@
+{
+  "project_name": "Agentic Workflows",
+  "description": "AI-powered automation using the WAT framework",
+  "version": "1.0.0",
+  "created_at": "2026-11-14",
+  "owner": "Ammar Ilyas",
+  "framework": "WAT (Workflows, Agents, Tools)",
+  "cloud_services": {
+    "google_sheets": "For data exports and dashboards",
+    "google_docs": "For reports and documentation",
+    "google_slides": "For presentations"
+  },
+  "api_keys_needed": [],
+  "workflows": [],
+  "tools": []
+}

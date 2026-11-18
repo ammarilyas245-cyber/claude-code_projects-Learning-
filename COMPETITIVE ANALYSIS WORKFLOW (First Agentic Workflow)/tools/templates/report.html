@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ brand.report_title }} — {{ brand.company_name }}</title>
+    <style>{{ css }}</style>
+</head>
+<body>
+
+<!-- PAGE FOOTER (fixed, appears on every content page) -->
+<div class="page-footer">
+    <span class="page-footer-left">Confidential — {{ brand.company_name }}</span>
+    <span class="page-footer-right">Page <pdf:pagenumber> of <pdf:pagecount></span>
+</div>
+
+
+<!-- ============================================================
+     PAGE 1: COVER
+     ============================================================ -->
+<div class="cover-page">
+    <div class="cover-top-bar"></div>
+    <div class="cover-content">
+        <div class="cover-logo">
+            {% if logo_b64 %}
+            <img src="data:image/png;base64,{{ logo_b64 }}" alt="{{ brand.company_name }} Logo">
+            {% else %}
+            <span style="font-size:18pt;font-weight:bold;color:#60A5FA;">{{ brand.brand_abbreviation }}</span>
+            {% endif %}
+        </div>
+
+        <div class="cover-label">Competitive Intelligence</div>
+        <div class="cover-title">{{ brand.report_title }}</div>
+        <div class="cover-subtitle">
+            A comprehensive analysis of the competitive landscape for {{ brand.company_name }}
+        </div>
+
+        <table class="cover-meta-table">
+            <tr>
+                <td>
+                    <span class="cover-meta-label">Prepared For</span>
+                    <span class="cover-meta-value">{{ brand.company_name }}</span>
+                </td>
+                <td>
+                    <span class="cover-meta-label">Report Date</span>
+                    <span class="cover-meta-value">{{ report_date }}</span>
+                </td>
+                <td>
+                    <span class="cover-meta-label">Competitors Analyzed</span>
+                    <span class="cover-meta-value">{{ data.total_competitors }}</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="cover-bottom">
+        <div class="cover-tagline">{{ brand.tagline }}</div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     PAGE 2: EXECUTIVE SUMMARY
+     ============================================================ -->
+<div class="section-page">
+    <div class="section-header clearfix">
+        <div class="section-number">1</div>
+        <div class="section-title">Executive Summary</div>
+    </div>
+
+    <div class="summary-box">
+        {{ data.market_summary.market_overview }}
+    </div>
+
+    <p><strong>Market Positioning:</strong> {{ data.market_summary.market_positioning }}</p>
+
+    {% if data.month_over_month_changes and data.month_over_month_changes[0] != 'First analysis — no historical data to compare' %}
+    <div class="changes-banner">
+        <h4>Changes Since Last Analysis</h4>
+        <ul>
+            {% for change in data.month_over_month_changes %}
+            <li>{{ change }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <h3 style="font-size:12pt;margin:16px 0 10px 0;">Key Market Themes</h3>
+    <ul style="margin-bottom:20px;">
+        {% for theme in data.market_summary.key_themes %}
+        <li style="padding:5px 0;border-bottom:1px solid #E2E8F0;">{{ theme }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3 style="font-size:12pt;margin:16px 0 10px 0;">Competitive Snapshot</h3>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Competitor</th>
+                <th>Threat</th>
+                <th>Their Top Strength</th>
+                <th>Our Advantage</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data.market_summary.competitive_summary_table %}
+            <tr{% if loop.index is even %} class="even"{% endif %}>
+                <td><strong>{{ row.competitor }}</strong></td>
+                <td class="threat-cell-{{ row.threat_level | lower }}">{{ row.threat_level }}</td>
+                <td>{{ row.top_strength }}</td>
+                <td>{{ row.our_advantage }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<!-- ============================================================
+     PAGE 3: OUR BUSINESS PROFILE
+     ============================================================ -->
+<div class="section-page">
+    <div class="section-header clearfix">
+        <div class="section-number">2</div>
+        <div class="section-title">Our Business Profile</div>
+    </div>
+
+    <div class="profile-card">
+        <h3>{{ data.our_company.name }}</h3>
+
+        <div class="profile-label">Value Proposition</div>
+        <div class="profile-value">{{ our_company_full.value_proposition or "AI automation and systems integration for growing businesses" }}</div>
+
+        <div class="profile-label">Target Markets</div>
+        <div class="profile-value">
+            {% for m in data.our_company.target_markets %}
+            <span class="tag">{{ m }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="profile-label">Core Services</div>
+        <div class="profile-value">
+            {% for s in data.our_company.services %}
+            <span class="tag">{{ s }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="profile-label">Key Differentiators</div>
+        <div class="profile-value">
+            {% for d in data.our_company.differentiators %}
+            <span class="tag">{{ d }}</span>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     PAGE 4: COMPETITIVE LANDSCAPE (CHARTS)
+     ============================================================ -->
+<div class="section-page">
+    <div class="section-header clearfix">
+        <div class="section-number">3</div>
+        <div class="section-title">Competitive Landscape</div>
+    </div>
+
+    {% if positioning_chart_b64 %}
+    <div class="chart-container">
+        <img src="data:image/png;base64,{{ positioning_chart_b64 }}" alt="Competitive Positioning Matrix">
+        <div class="chart-caption">Competitive Positioning Matrix — Service Breadth vs. Market Specialization</div>
+    </div>
+    {% endif %}
+
+    {% if pricing_chart_b64 %}
+    <div class="chart-container">
+        <img src="data:image/png;base64,{{ pricing_chart_b64 }}" alt="Pricing Model Distribution">
+        <div class="chart-caption">Pricing Model Distribution Across Competitors</div>
+    </div>
+    {% endif %}
+</div>
+
+
+<!-- ============================================================
+     PAGES 5+: COMPETITOR PROFILES
+     ============================================================ -->
+{% for competitor in data.competitor_analyses %}
+<div class="section-page">
+    <div class="section-header clearfix">
+        <div class="section-number">{{ loop.index + 3 }}</div>
+        <div class="section-title">{{ competitor.competitor_name }}</div>
+    </div>
+
+    <div class="competitor-card">
+        <div class="competitor-card-header clearfix">
+            <div class="float-left">
+                <h3>{{ competitor.competitor_name }}</h3>
+                {% if competitor.website %}
+                <span class="competitor-website">{{ competitor.website }}</span>
+                {% endif %}
+            </div>
+            {% if competitor.threat_level %}
+            <span class="threat-badge threat-{{ competitor.threat_level | lower }}">
+                {{ competitor.threat_level }} Threat
+            </span>
+            {% endif %}
+        </div>
+        <div class="competitor-card-body">
+
+            {% if competitor.data_completeness is defined and competitor.data_completeness < 70 %}
+            <div class="data-warning">
+                &#9888; {{ competitor.data_note or "Limited data — some fields may be incomplete." }}
+                (Completeness: {{ competitor.data_completeness }}%)
+            </div>
+            {% endif %}
+
+            {% if competitor.threat_reasoning %}
+            <p style="margin-bottom:14px;font-size:9.5pt;color:#475569;">
+                <strong>Assessment:</strong> {{ competitor.threat_reasoning }}
+            </p>
+            {% endif %}
+
+            {% set dims = competitor.dimensions %}
+            {% if dims %}
+            <!-- Two-column dimension layout using floats -->
+            <div class="dimension-row clearfix">
+
+                <!-- Product Features -->
+                <div class="dimension-half">
+                    <div class="dimension-card">
+                        <div class="dimension-title">Product &amp; Service Features</div>
+                        {% if dims.product_features %}
+                        {% set pf = dims.product_features %}
+                        {% if pf.services_offered %}
+                        <div class="dimension-label">Services</div>
+                        <ul>
+                            {% for s in pf.services_offered[:5] %}
+                            <li>{{ s }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        {% if pf.notable_strengths %}
+                        <div class="dimension-label">Notable Strengths</div>
+                        <ul>
+                            {% for s in pf.notable_strengths %}
+                            <li>{{ s }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Pricing -->
+                <div class="dimension-half">
+                    <div class="dimension-card pricing">
+                        <div class="dimension-title">Pricing &amp; Business Model</div>
+                        {% if dims.pricing_model %}
+                        {% set pm = dims.pricing_model %}
+                        {% if pm.model_type and pm.model_type != 'unknown' %}
+                        <span class="pricing-model-badge">{{ pm.model_type | replace('-', ' ') | title }}</span><br><br>
+                        {% endif %}
+                        {% if pm.tiers %}
+                        <div class="dimension-label">Tiers</div>
+                        <ul>
+                            {% for t in pm.tiers[:4] %}
+                            <li>{{ t }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        {% if pm.price_range %}
+                        <div class="dimension-label">Price Range</div>
+                        <p style="font-size:9pt;">{{ pm.price_range }}</p>
+                        {% endif %}
+                        {% if pm.positioning %}
+                        <div class="dimension-label">Market Position</div>
+                        <p style="font-size:9pt;">{{ pm.positioning | title }}</p>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="dimension-row clearfix">
+
+                <!-- Marketing -->
+                <div class="dimension-half">
+                    <div class="dimension-card marketing">
+                        <div class="dimension-title">Marketing &amp; Messaging</div>
+                        {% if dims.marketing_messaging %}
+                        {% set mm = dims.marketing_messaging %}
+                        {% if mm.positioning_statement %}
+                        <div class="dimension-label">How They Position</div>
+                        <p style="font-size:9pt;margin-bottom:7px;">{{ mm.positioning_statement }}</p>
+                        {% endif %}
+                        {% if mm.key_messages %}
+                        <div class="dimension-label">Key Messages</div>
+                        <ul>
+                            {% for m in mm.key_messages[:3] %}
+                            <li>{{ m }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        {% if mm.channels %}
+                        <div class="dimension-label">Channels</div>
+                        <p style="font-size:9pt;">{{ mm.channels[:5] | join(', ') }}</p>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- vs AAA -->
+                <div class="dimension-half">
+                    <div class="dimension-card comparison">
+                        <div class="dimension-title">vs. {{ brand.brand_abbreviation }}</div>
+                        {% if dims.strengths_weaknesses %}
+                        {% set sw = dims.strengths_weaknesses %}
+                        {% if sw.our_advantages_vs_them %}
+                        <div class="dimension-label" style="color:#16A34A;">Our Advantages</div>
+                        <ul>
+                            {% for a in sw.our_advantages_vs_them[:3] %}
+                            <li class="advantage">{{ a }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        {% if sw.their_strengths_vs_us %}
+                        <div class="dimension-label" style="color:#DC2626;margin-top:8px;">Their Strengths</div>
+                        <ul>
+                            {% for s in sw.their_strengths_vs_us[:3] %}
+                            <li class="threat-li">{{ s }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+<!-- ============================================================
+     PRICING ANALYSIS TABLE
+     ============================================================ -->
+<div class="section-page">
+    <div class="section-header clearfix">
+        <div class="section-number">{{ data.total_competitors + 4 }}</div>
+        <div class="section-title">Pricing Analysis</div>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Competitor</th>
+                <th>Model</th>
+                <th>Price Range</th>
+                <th>Positioning</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in data.competitor_analyses %}
+            {% set pm = c.dimensions.pricing_model if c.dimensions else none %}
+            <tr{% if loop.index is even %} class="even"{% endif %}>
+                <td><strong>{{ c.competitor_name }}</strong></td>
+                <td>{% if pm and pm.model_type %}{{ pm.model_type | replace('-', ' ') | title }}{% else %}Unknown{% endif %}</td>
+                <td>{% if pm and pm.price_range %}{{ pm.price_range }}{% else %}Not public{% endif %}</td>
+                <td>{% if pm and pm.positioning %}{{ pm.positioning | title }}{% else %}Unknown{% endif %}</td>
+                <td class="text-small text-muted">{% if pm and pm.our_advantage %}{{ pm.our_advantage }}{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<!-- ============================================================
+     FEATURE COMPARISON MATRIX
+     ============================================================ -->
+<div class="section-page">
+    <div class="section-header clearfix">
+        <div class="section-number">{{ data.total_competitors + 5 }}</div>
+        <div class="section-title">Feature Comparison Matrix</div>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Competitor</th>
+                <th>Threat</th>
+                <th>Top Services</th>
+                <th>Our Key Advantage</th>
+                <th>Their Key Strength</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in data.competitor_analyses %}
+            {% set pf = c.dimensions.product_features if c.dimensions else none %}
+            {% set sw = c.dimensions.strengths_weaknesses if c.dimensions else none %}
+            <tr{% if loop.index is even %} class="even"{% endif %}>
+                <td><strong>{{ c.competitor_name }}</strong></td>
+                <td class="threat-cell-{{ c.threat_level | lower | default('low') }}">{{ c.threat_level | default('?') }}</td>
+                <td class="text-small">{% if pf and pf.services_offered %}{{ pf.services_offered[:3] | join(', ') }}{% else %}N/A{% endif %}</td>
+                <td class="text-small" style="color:#15803D;">{% if sw and sw.our_advantages_vs_them %}{{ sw.our_advantages_vs_them[0] }}{% else %}N/A{% endif %}</td>
+                <td class="text-small" style="color:#B91C1C;">{% if sw and sw.their_strengths_vs_us %}{{ sw.their_strengths_vs_us[0] }}{% else %}N/A{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<!-- ============================================================
+     STRATEGIC INSIGHTS & RECOMMENDATIONS
+     ============================================================ -->
+<div class="section-page">
+    <div class="section-header clearfix">
+        <div class="section-number">{{ data.total_competitors + 6 }}</div>
+        <div class="section-title">Strategic Insights &amp; Recommendations</div>
+    </div>
+
+    <h3 style="font-size:12pt;margin-bottom:14px;">Strategic Insights</h3>
+    {% for insight in data.market_summary.strategic_insights %}
+    <div class="insight-card clearfix">
+        <div class="insight-priority priority-{{ insight.priority | lower }}">{{ insight.priority[0] }}</div>
+        <div class="insight-body">
+            <h4>{{ insight.insight }}</h4>
+            <p>{{ insight.rationale }}</p>
+        </div>
+    </div>
+    {% endfor %}
+
+    <h3 style="font-size:12pt;margin:24px 0 14px 0;">Recommendations</h3>
+    {% for rec in data.market_summary.recommendations %}
+    <div class="insight-card clearfix">
+        <div class="insight-priority priority-{{ rec.priority | lower }}">{{ rec.priority[0] }}</div>
+        <div class="insight-body">
+            <h4>{{ rec.recommendation }} <span class="effort-badge">{{ rec.effort }} effort</span></h4>
+            <p>{{ rec.rationale }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+<!-- ============================================================
+     CLOSING PAGE
+     ============================================================ -->
+<div class="closing-page">
+    {% if logo_b64 %}
+    <img src="data:image/png;base64,{{ logo_b64 }}" alt="{{ brand.company_name }} Logo"><br>
+    {% endif %}
+    <h2>Stay Ahead of the Market</h2>
+    <div class="closing-divider"></div>
+    <p>This report was generated on {{ report_date }}.</p>
+    <p>Re-run this analysis at any time to track how the competitive landscape evolves.</p>
+    <p style="margin-top:14px;color:#60A5FA;">{{ brand.company_name }}</p>
+    <div class="closing-tagline">{{ brand.tagline }}</div>
+</div>
+
+</body>
+</html>
